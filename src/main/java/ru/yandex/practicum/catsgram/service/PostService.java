@@ -8,6 +8,7 @@ import ru.yandex.practicum.catsgram.model.User;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PostService {
@@ -24,8 +25,8 @@ public class PostService {
     }
 
     public Post create(Post post) {
-        User postAuthor = userService.findUserByEmail(post.getAuthor());
-        if (postAuthor == null) {
+        Optional<User> postAuthor = userService.findUserById(post.getAuthor());
+        if (postAuthor.isEmpty()) {
             throw new UserNotFoundException(String.format(
                     "Пользователь %s не найден",
                     post.getAuthor()));
